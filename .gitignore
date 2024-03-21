@@ -1,3 +1,6 @@
+# no subir el enunciado del problema a github
+Blackjack paradigmas.pdf
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -77,6 +80,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+dev.ipynb
 
 # IPython
 profile_default/
