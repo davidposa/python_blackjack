@@ -7,15 +7,7 @@ class Carta(CartaBase):
     """ Clase para representar una carta. Hereda de la clase CartaBase y 
         la expande con metodos para representarla de forma lujosa.
     """
-    def __init__(self, ind: int):
-        """ Crea la carta con su indice en el mazo y calcula el indice
-            que le corresponde dentro de una baraja individual (0-51).
-        :param ind: El indice de la carta dentro del mazo.
-        """
-        super().__init__(ind)
-        self.ind_bar = self.ind % 52 
-
-    def __str__(self):
+    def __str__(self) -> str:
         """ Metodo para representar la carta de manera lujosa en la terminal.
             Utiliza caracteres Unicode para formar los bordes.
         :return: String con la representacion de la carta
@@ -35,7 +27,7 @@ class Carta(CartaBase):
         :return: Caracter Unicode representando el palo de la carta.
         """
         palos = ["\u2663", "\u2660", "\u2666", "\u2665"]
-        return palos[self.ind_bar // 13]
+        return palos[self.ind // 13]
     
     @property
     def numero(self) -> str:
@@ -47,4 +39,4 @@ class Carta(CartaBase):
         :return: String correspondiente al numero de la carta.
         """
         nums = [' A', ' 2', ' 3', ' 4', ' 5', ' 6', ' 7', ' 8', ' 9', '10', ' J', ' Q', ' K']
-        return nums[self.ind // 13]
+        return nums[self.ind % 13]
