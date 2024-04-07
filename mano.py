@@ -86,7 +86,7 @@ class Mano(object):
         :return: Diccionario con las posibles opciones
         """
         if self.estado in ["PASADA", "Cerrada"]:
-            return []
+            return {}
         opcs = {"p": "[P]edir", "c": "[C]errar", "d": "[D]oblar"}
         if len(self.cartas) == 2 and self.cartas[0].valor == self.cartas[1].valor:
             opcs["s"] = "[S]eparar"

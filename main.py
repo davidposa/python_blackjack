@@ -14,14 +14,35 @@ def jugar_partida(mazo: Mazo, estrategia: Estrategia, balance: int, num_part: in
     mano_cr = Mano("Croupier", apuesta, cartas=[mazo.reparte()])
     mano_jug = Mano("Mano", apuesta, cartas=[mazo.reparte(), mazo.reparte()])
     print(str(mano_cr))
-    print(str(mano_jug))
+    print(str(mano))
 
-    if mano_jug.valor == 21:
+    if mano.valor == 21:
         output = apuesta * (3/2)
         print("*****************\n*** BLACKJACK ***\n*****************\n")
         print(f"Ha ganado {output} €!")
         return output
+    
+    manos_jug = [mano_jug]
+    while len([m for m in manos_jug if m.estado == "Abierta"]) > 0:
+        for i, mano in enumerate(manos_jug): 
 
+            opciones_mano = mano.opciones()
+            if not opciones_mano:
+                continue
+            opcion = input(f"¿Jugada para {mano.nombre}? {" ".join(opciones_mano.values())}")
+            while opcion.lower() not in opciones_mano.keys():
+                opcion = input(f"¿Jugada para {mano.nombre}? {" ".join(opciones_mano.values())}")
+
+            if opcion.lower() == "p":
+                mano.añadir_carta(mazo.reparte())
+            elif opcion.lower() == "c":
+                mano.cerrar()
+            elif opcion.lower() == "d":
+                mano.doblar()
+            elif opcion.lower() == "s":
+                manos_jug.pop(i)
+                manos_jug.extend(mano.separar())
+        
 
 def main():
     estrategia = Estrategia(Mazo.NUM_BARAJAS)
