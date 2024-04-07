@@ -5,6 +5,29 @@ from otros import unir_str_por_linea
 from functools import reduce
 
 
+def jugar_manos(mazo, manos_jug):
+    for i, mano in enumerate(manos_jug):
+        manos_jug_copia = manos_jug.copy()
+        opciones_mano = mano.opciones()
+        if not opciones_mano:
+            continue
+        opcs_output = f"¿Jugada para {mano.nombre}? {' '.join(opciones_mano.values())} "
+        opcion = input(opcs_output)
+        while opcion.lower() not in opciones_mano.keys():
+            opcion = input(opcs_output)
+
+        if opcion.lower() == "p":
+            mano.añadir_carta(mazo.reparte())
+        elif opcion.lower() == "c":
+            mano.cerrar()
+        elif opcion.lower() == "d":
+            mano.doblar(mazo.reparte())
+        elif opcion.lower() == "s":
+            manos_jug_copia.pop(i)
+            manos_jug_copia.extend(mano.separar())
+    return manos_jug_copia
+
+
 def jugar_partida(mazo: Mazo, estrategia: Estrategia, balance: int, num_part: int):
     print(F"--- INICIO DE LA PARTIDA #{num_part} --- BALANCE = {balance} €")
     apuesta = input("¿Apuesta? [2] [10] [50]: ")
@@ -25,33 +48,14 @@ def jugar_partida(mazo: Mazo, estrategia: Estrategia, balance: int, num_part: in
         return output
     
     manos_jug = [mano_jug]
+    manos_jug = jugar_manos(mazo, manos_jug)
     while len([m for m in manos_jug if m.estado == "Abierta"]) > 0:
         repr_manos = []
         for mano in manos_jug[:-1]:
             repr_manos.append(unir_str_por_linea(str(mano), " | \n | \n | \n | "))
         repr_manos.append(str(manos_jug[-1]))
         print(reduce(unir_str_por_linea, repr_manos))
-
-        for i, mano in enumerate(manos_jug):
-            manos_jug_copia = manos_jug.copy()
-            opciones_mano = mano.opciones()
-            if not opciones_mano:
-                continue
-            opcs_output = f"¿Jugada para {mano.nombre}? {' '.join(opciones_mano.values())} "
-            opcion = input(opcs_output)
-            while opcion.lower() not in opciones_mano.keys():
-                opcion = input(opcs_output)
-
-            if opcion.lower() == "p":
-                mano.añadir_carta(mazo.reparte())
-            elif opcion.lower() == "c":
-                mano.cerrar()
-            elif opcion.lower() == "d":
-                mano.doblar(mazo.reparte())
-            elif opcion.lower() == "s":
-                manos_jug_copia.pop(i)
-                manos_jug_copia.extend(mano.separar())
-        manos_jug = manos_jug_copia.copy()
+        manos_jug = jugar_manos(mazo, manos_jug)
         
 
 def main():
