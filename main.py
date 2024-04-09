@@ -172,8 +172,9 @@ def main():
         while True:
             try: 
                 num_partidas = int(num_partidas)
+                assert num_partidas > 0
                 break
-            except ValueError: 
+            except (ValueError, AssertionError): 
                 num_partidas = input("¿Número de partidas? ")
         for i in range(num_partidas):
             mazo, estrategia, res = analizar_partida(mazo, estrategia, balance, i+1)
