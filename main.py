@@ -8,17 +8,22 @@ from time import sleep
 from sys import stdout
 
 
-def reparto_inicial(mazo: Mazo, apuesta: int):
+def reparto_inicial(mazo: Mazo, apuesta: int, modo: str="j"):
     """ Funcion que se encarga de repartir la mano inicial al jugador
     y al croupier. 
     :param mazo: objeto de la clase Mazo del cual repartir las cartas
     :param apuesta: cantidad apostada por el jugador
+    :param modo: string que determina si la partida es en modo juego o en modo
+    analisis. En modo juego pausa brevemente antes de repartir cada mano
     :return: tupla conteniendo la mano del croupier, la del jugador, y el mazo
     """
     print("\nREPARTO INICIAL")
     mano_cr = Mano("Croupier", apuesta, cartas=[mazo.reparte()])
     mano_jug = Mano("Mano", apuesta, cartas=[mazo.reparte(), mazo.reparte()])
+    sleep_time = 0.4 if modo == "j" else 0
+    sleep(sleep_time/2)
     print(str(mano_cr))
+    sleep(sleep_time)
     print(str(mano_jug))
     return mano_cr, mano_jug, mazo
 
@@ -101,7 +106,7 @@ def jugar_manos(mazo: Mazo, manos_jug: List[Mano]):
         opcion = input(opcs_output)
         while opcion.lower() not in opciones_mano.keys():
             opcion = input(opcs_output)
-        mazo, manos_jug_copia, manos_separadas = jugar_opcion(mazo, manos_jug_copia, manos_separadas, i, mano, opcion)
+        mazo, manos_jug_copia, manos_separadas = jugar_opcion(mazo, manos_jug_copia, manos_separadas, mano, i, opcion)
     return mazo, manos_jug_copia + manos_separadas
 
 
@@ -122,7 +127,7 @@ def analizar_manos(mazo: Mazo, estrategia: Estrategia, manos_jug: List[Mano], ma
             continue
         jugada = estrategia.jugada(*mano_cr.cartas, mano.cartas)
         print(f"¿Jugada para {mano.nombre}? {' '.join(opciones_mano.values())} {jugada}")
-        mazo, manos_jug_copia, manos_separadas = jugar_opcion(mazo, manos_jug_copia, manos_separadas, i, mano, jugada)
+        mazo, manos_jug_copia, manos_separadas = jugar_opcion(mazo, manos_jug_copia, manos_separadas, mano, i, jugada)
     return mazo, estrategia, manos_jug_copia + manos_separadas
 
 
@@ -220,7 +225,7 @@ def analizar_partida(mazo: Mazo, estrategia: Estrategia, balance: int, num_part:
     apuesta = estrategia.apuesta(2, 10, 50)
     print(f"¿Apuesta? [2] [10] [50]: {apuesta}")
 
-    mano_cr, mano_jug, mazo = reparto_inicial(mazo, apuesta)
+    mano_cr, mano_jug, mazo = reparto_inicial(mazo, apuesta, modo="a")
     blackjack = hay_blackjack(apuesta, mano_jug, modo="a")
     if blackjack: 
         return mazo, estrategia, blackjack
