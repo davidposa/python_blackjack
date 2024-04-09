@@ -78,6 +78,7 @@ class Mano(object):
         """
         return [Mano(self.nombre + l, apuesta=self.apuesta, cartas=[c]) for c, l in zip(self.cartas, ["A", "B"])]
     
+    @property
     def opciones(self) -> Dict[str, str]:
         """ Metodo para calcular las opciones disponibles para la mano. Las posibles
             opciones son: pedir otra carta (P), cerrar la mano (C), doblar la apuesta (D),
@@ -91,3 +92,20 @@ class Mano(object):
         if len(self.cartas) == 2 and self.cartas[0].valor == self.cartas[1].valor:
             opcs["s"] = "[S]eparar"
         return opcs
+    
+    def evaluar(self, mano: Self):
+        """ Metodo para calcular si la mano gana o pierde contra otra mano.
+        :return: 1 si la mano gana, -1 si pierde, y 0 si nadie gana
+        """
+        if (
+            (self.estado == "PASADA" and mano.estado == "PASADA")
+            or self.valor == mano.valor
+        ):
+            return 0
+        elif  (
+            (mano.estado == "PASADA" or self.valor > mano.valor)
+            and (self.estado != "PASADA")
+        ):
+            return 1
+        elif self.estado == "PASADA" or mano.valor > self.valor:
+            return -1
