@@ -82,7 +82,9 @@ def jugar_partida(mazo: Mazo, estrategia: Estrategia, balance: int, num_part: in
             mano_cr.cerrar()
 
     print("\nFIN DE LA PARTIDA")
-
+    print(f"{mano_cr}")
+    print(f"{representar_manos(manos_jug)}")
+    print("\nCONTABILIZACION DE RESULTADOS")
 
 def main():
     estrategia = Estrategia(Mazo.NUM_BARAJAS)

@@ -91,7 +91,7 @@ class Mano(object):
             opcs["s"] = "[S]eparar"
         return opcs
     
-    def evaluar (self, mano: Self):
+    def evaluar (self, mano):
         """Metodo para calcular si la mano gana o pierde contra otra mano.
         return: 1 si la mano gana, -1 si pierde, y 0 si nadie gana
         """
