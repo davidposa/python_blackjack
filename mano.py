@@ -90,3 +90,14 @@ class Mano(object):
         if len(self.cartas) == 2 and self.cartas[0].valor == self.cartas[1].valor:
             opcs["s"] = "[S]eparar"
         return opcs
+    
+    def evaluar (self, mano: Self):
+        """Metodo para calcular si la mano gana o pierde contra otra mano.
+        return: 1 si la mano gana, -1 si pierde, y 0 si nadie gana
+        """
+        if ((self.estado  == "PASADA"and mano.estado == "PASADA") or self.valor == mano.valor):
+            return 0
+        elif ((mano.estado == "PASADA" or self.valor > mano.valor)) and (self.estado != "PASADA"):
+            return self.apuesta
+        elif self.estado == "PASADA" or mano.valor > self.valor:
+            return self.apuesta * -1
