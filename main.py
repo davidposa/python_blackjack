@@ -43,7 +43,7 @@ def representar_manos(manos_jug):
     return reduce(unir_str_por_linea, repr_manos)
 
 
-def jugar_partida(mazo: Mazo, estrategia: Estrategia, balance: int, num_part: int):
+def jugar_partida(mazo: Mazo, estrategia: Estrategia, balance: int, num_part: int): 
     print(F"--- INICIO DE LA PARTIDA #{num_part} --- BALANCE = {balance} €")
     apuesta = input("¿Apuesta? [2] [10] [50]: ")
     while apuesta not in ["2", "10", "50", ""]:
@@ -86,6 +86,14 @@ def jugar_partida(mazo: Mazo, estrategia: Estrategia, balance: int, num_part: in
     print(f"{representar_manos(manos_jug)}")
     print("\nCONTABILIZACION DE RESULTADOS")
 
+    resultado = 0
+    for mano_jug in manos_jug:
+        comparar = mano_jug.evaluar(mano_cr)
+        print(f"* Croupier: {mano_cr.valor}, {mano_jug.nombre}: {mano_jug.valor} -> {'+' if comparar >= 0 else '-'}{abs(comparar)}")
+        resultado += comparar
+    print(f"Resultado de la partida: {'+' if resultado >= 0 else '-'}{abs(resultado)}")
+    return resultado
+
 def main():
     estrategia = Estrategia(Mazo.NUM_BARAJAS)
     mazo = Mazo(Carta, estrategia)
@@ -103,9 +111,11 @@ def main():
         while otra.lower() in ["s", ""]:
             balance += jugar_partida(mazo, estrategia, balance, num_part)
             otra = input("¿Otra partida? [S/N]: ")
+            num_part += 1
             while otra.lower() not in ["s", "n", ""]:
                 otra = input("¿Otra partida? [S/N]: ")
         print(f"BALANCE FINAL: {balance} €")
+
 
 
 if __name__ == "__main__":
