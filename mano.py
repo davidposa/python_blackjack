@@ -1,7 +1,6 @@
 """ Codigo para la clase Mano
 """
 from typing import List, Dict
-from typing_extensions import Self
 from functools import reduce
 from carta import Carta
 from otros import unir_str_por_linea
@@ -70,7 +69,7 @@ class Mano(object):
         self.cerrar()
         self.añadir_carta(carta)
 
-    def separar(self) -> List[Self]:
+    def separar(self):
         """ Metodo para separar la mano. Solo puede ser llamado si la mano tiene 
             exactamente dos cartas con el mismo valor numerico. Separa la mano
             en dos, con una carta cada una.

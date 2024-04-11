@@ -6,8 +6,11 @@ from functools import reduce
 
 
 def jugar_manos(mazo, manos_jug):
+    # Para no iterar y modificar la misma lista a la vez, 
+    # creamos una copia de la lista que contiene las manos.
+    manos_jug_copia = manos_jug.copy()
+    manos_separadas = 0
     for i, mano in enumerate(manos_jug):
-        manos_jug_copia = manos_jug.copy()
         opciones_mano = mano.opciones()
         if not opciones_mano:
             continue
@@ -15,7 +18,6 @@ def jugar_manos(mazo, manos_jug):
         opcion = input(opcs_output)
         while opcion.lower() not in opciones_mano.keys():
             opcion = input(opcs_output)
-
         if opcion.lower() == "p":
             mano.añadir_carta(mazo.reparte())
         elif opcion.lower() == "c":
@@ -23,9 +25,22 @@ def jugar_manos(mazo, manos_jug):
         elif opcion.lower() == "d":
             mano.doblar(mazo.reparte())
         elif opcion.lower() == "s":
-            manos_jug_copia.pop(i)
+            # Al separar una  mano, borramos la mano original de la lista, 
+            # por lo que el indice de las siguientes manos se reduce por uno. 
+            # Por tanto, hay que reducir el indice de la mano que vamos a eliminar 
+            # el numero de veces que hayamos separado una mano.
+            manos_jug_copia.pop(i - manos_separadas)
             manos_jug_copia.extend(mano.separar())
+            manos_separadas += 1
     return manos_jug_copia
+
+
+def representar_manos(manos_jug):
+    repr_manos = []
+    for mano in manos_jug[:-1]:
+        repr_manos.append(unir_str_por_linea(str(mano), " | \n | \n | \n | "))
+    repr_manos.append(str(manos_jug[-1]))
+    return reduce(unir_str_por_linea, repr_manos)
 
 
 def jugar_partida(mazo: Mazo, estrategia: Estrategia, balance: int, num_part: int):
@@ -47,16 +62,27 @@ def jugar_partida(mazo: Mazo, estrategia: Estrategia, balance: int, num_part: in
         print(f"Ha ganado {output} €!")
         return output
     
+    print("\nTURNO DEL JUGADOR")
+
     manos_jug = [mano_jug]
     manos_jug = jugar_manos(mazo, manos_jug)
     while len([m for m in manos_jug if m.estado == "Abierta"]) > 0:
-        repr_manos = []
-        for mano in manos_jug[:-1]:
-            repr_manos.append(unir_str_por_linea(str(mano), " | \n | \n | \n | "))
-        repr_manos.append(str(manos_jug[-1]))
-        print(reduce(unir_str_por_linea, repr_manos))
+        print(f"\n{representar_manos(manos_jug)}")
         manos_jug = jugar_manos(mazo, manos_jug)
-        
+    
+    print(f"\n{representar_manos(manos_jug)}")
+
+    print("\nTURNO DEL CROUPIER")
+    print(str(mano_cr))
+    if len([m for m in manos_jug if m.estado == "Cerrada"]) > 0:
+        while mano_cr.valor < 17:
+            mano_cr.añadir_carta(mazo.reparte())
+            print(f"\n{str(mano_cr)}")
+        if  mano_cr.valor >= 17:
+            mano_cr.cerrar()
+
+    print("\nFIN DE LA PARTIDA")
+
 
 def main():
     estrategia = Estrategia(Mazo.NUM_BARAJAS)
