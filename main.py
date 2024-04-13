@@ -78,7 +78,7 @@ def jugar_partida(mazo: Mazo, estrategia: Estrategia, balance: int, num_part: in
         while mano_cr.valor < 17:
             mano_cr.añadir_carta(mazo.reparte())
             print(f"\n{str(mano_cr)}")
-        if  mano_cr.valor >= 17:
+        if mano_cr.estado != "PASADA" and mano_cr.valor >= 17:
             mano_cr.cerrar()
 
     print("\nFIN DE LA PARTIDA")
