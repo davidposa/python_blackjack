@@ -4,6 +4,7 @@ from mano import Mano
 from otros import unir_str_por_linea
 from functools import reduce
 
+# Desarrollado por Jorge Ruperez Lopez y David Posadas Valverde, pertenecientes al grupo T2
 
 def jugar_manos(mazo, manos_jug):
     # Para no iterar y modificar la misma lista a la vez, 

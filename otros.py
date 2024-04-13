@@ -1,3 +1,5 @@
+# Desarrollado por Jorge Ruperez Lopez y David Posadas Valverde, pertenecientes al grupo T2
+
 """ Funciones varias
 """
 def unir_str_por_linea(str1: str, str2: str) -> str:

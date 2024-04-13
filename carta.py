@@ -2,6 +2,7 @@
 """
 from externo import CartaBase
 
+# Desarrollado por Jorge Ruperez Lopez y David Posadas Valverde, pertenecientes al grupo T2
 
 class Carta(CartaBase):
     """ Clase para representar una carta. Hereda de la clase CartaBase y 
