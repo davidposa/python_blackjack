@@ -1,11 +1,12 @@
 """ Codigo para la clase Mano
+    Desarrollado por Jorge Ruperez Lopez y David Posadas Valverde, pertenecientes al grupo T2
 """
 from typing import List, Dict
 from functools import reduce
 from carta import Carta
 from otros import unir_str_por_linea
 
-# Desarrollado por Jorge Ruperez Lopez y David Posadas Valverde, pertenecientes al grupo T2
+
 
 class Mano(object):
     """ Clase para representar manos

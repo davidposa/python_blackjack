@@ -1,4 +1,5 @@
 """ Codigo para la clase Carta
+    # Desarrollado por Jorge Ruperez Lopez y David Posadas Valverde, pertenecientes al grupo T2
 """
 from externo import CartaBase
 

@@ -1,10 +1,13 @@
+""" # Desarrollado por Jorge Ruperez Lopez y David Posadas Valverde, pertenecientes al grupo T2
+"""
+
 from externo import Mazo, Estrategia
 from carta import Carta
 from mano import Mano
 from otros import unir_str_por_linea
 from functools import reduce
 
-# Desarrollado por Jorge Ruperez Lopez y David Posadas Valverde, pertenecientes al grupo T2
+
 
 def jugar_manos(mazo, manos_jug):
     # Para no iterar y modificar la misma lista a la vez, 
@@ -203,7 +206,7 @@ def main():
                 numer_part = int(input("¿Número de partidas? "))
                 break #Rompe el bucle si lo introducio por el usuario si es un numero entero
             except ValueError:
-                print("Porfavor introduzca un numero entero")
+                print("Porfavor introduzca un número entero")
         while (numer_part_simuladas<numer_part):
             balance += analizar_partida(mazo, estrategia, balance, num_part)
             numer_part_simuladas += 1
